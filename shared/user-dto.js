@@ -16,7 +16,7 @@ export const registerUserDTO = authBase
     lastName: z.string().min(1, "Last name must not be empty"),
     phoneNumber: z
       .string()
-      .min(10, "Phone number must have 10 numbers")
+      .regex(/^\d{10}$/, "Phone number must contain exactly 10 numbers")
       .optional()
       .or(z.literal("")),
   })

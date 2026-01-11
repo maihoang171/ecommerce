@@ -99,7 +99,7 @@ function Login() {
             Login
           </button>
           {serverError && (
-            <div className=" text-red-600 px-4 py-2 text-sm text-center">
+            <div className=" text-red-500 text-xs">
               {serverError}
             </div>
           )}
