@@ -24,7 +24,7 @@ app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "welcom to Ecommerce API!",
+    message: "welcome to Ecommerce API!",
     status: "running",
   });
 });
