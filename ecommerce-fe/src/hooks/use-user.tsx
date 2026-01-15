@@ -83,13 +83,11 @@ export const useRegister = () => {
 };
 
 export const useLogout = () => {
-  const setUser = useUserStore(state => state.setUser)
   const [error, setError] = useState("");
   const handleLogout = async () => {
     try {
       setError("");
       await logout();
-      setUser(null)
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError("An error occurred");

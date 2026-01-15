@@ -9,12 +9,12 @@ import { useState, useRef, useEffect } from "react";
 
 function Navbar() {
   const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
   console.log(user);
   const navigate = useNavigate();
   const { handleLogout } = useLogout();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -32,6 +32,7 @@ function Navbar() {
   const handleClickLogout = async () => {
     await handleLogout();
     setIsOpen(false);
+    setUser(null);
     navigate("/");
   };
   return (
@@ -138,18 +139,22 @@ function Navbar() {
 
               {isOpen && (
                 <div className="absolute right-0 border w-36 mt-2 border-gray-200 p-2 bg-gray-50 z-20 overflow-hidden">
-                  <ul className="flex flex-col gap-1">
-                    <li className="p-2 rounded-full hover:bg-gray-300">
-                    <NavLink to={"/personal-page"}>
-                      Personal
-                    </NavLink></li>
+                  <ul className="flex flex-col">
+                    <li className="w-full">
+                      <NavLink
+                        to={"/personal-page"}
+                        className="block w-full p-2 rounded-full hover:bg-gray-300 transition-colors"
+                      >
+                        Personal
+                      </NavLink>
+                    </li>
 
-                    <li className="p-2 rounded-full hover:bg-gray-300">
+                    <li className="w-full">
                       <button
                         onClick={handleClickLogout}
-                        className="cursor-pointer"
+                        className="block w-full  cursor-pointer p-2 text-left rounded-full hover:bg-gray-300 transition-colors"
                       >
-                        Log out{" "}
+                        Log out
                       </button>
                     </li>
                   </ul>

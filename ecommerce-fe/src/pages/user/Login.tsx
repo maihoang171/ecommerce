@@ -20,6 +20,10 @@ function Login() {
 
   const onSubmit = async (data: ILoginRequest) => {
     await handleLogin(data);
+
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
   };
 
   return (
@@ -29,7 +33,7 @@ function Login() {
         alt="logo"
         className="w-1/2 h-auto object-cover mx-auto"
       />
-      <div className="border p-4 rounded-xl border-gray-400 backdrop-blur-md bg-white/30">
+      <div className="flex flex-col justify-center border p-4 rounded-xl border-gray-400 backdrop-blur-md bg-white/30">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-2 w-full"
@@ -99,19 +103,18 @@ function Login() {
             Login
           </button>
           {serverError && (
-            <div className=" text-red-500 text-xs">
-              {serverError}
-            </div>
+            <div className=" text-red-500 text-xs">{serverError}</div>
           )}
-          <hr className="my-2 border-gray-300" />
-
-          <button
-            onClick={() => navigate("/register")}
-            className="btn border rounded-sm w-1/2 mx-auto font-bold text-white bg-green-600 hover:cursor-pointer"
-          >
-            Create new account
-          </button>
         </form>
+
+        <hr className="my-2 border-gray-300" />
+
+        <button
+          onClick={() => navigate("/register")}
+          className="btn border rounded-sm max-w-1/2 mx-auto flex font-bold text-white bg-green-600 hover:cursor-pointer"
+        >
+          Create new account
+        </button>
       </div>
     </div>
   );
