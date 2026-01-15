@@ -2,8 +2,38 @@ import logo from "../assets/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBagShopping, faUser } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
+import { useLogout } from "../hooks/use-user";
+import { useUserStore } from "../stores/useUserStore";
+import { useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
 
 function Navbar() {
+  const user = useUserStore((state) => state.user);
+  console.log(user);
+  const navigate = useNavigate();
+  const { handleLogout } = useLogout();
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleClickLogout = async () => {
+    await handleLogout();
+    setIsOpen(false);
+    navigate("/");
+  };
   return (
     <>
       <nav className="flex flex-row w-full justify-between items-center">
@@ -96,20 +126,51 @@ function Navbar() {
             <span>item:</span>
             <span className="font-bold ml-1"> $150.00</span>
           </div>
+          <div className="h-5 border-l border-gray-300 mx-1"></div>
+          {user ? (
+            <div className="relative" ref={menuRef}>
+              <div
+                onClick={toggleMenu}
+                className="w-10 h-10 rounded-full bg-brand-green text-white flex items-center justify-center font-bold cursor-pointer select-none"
+              >
+                {user.fullName?.charAt(0).toUpperCase()}
+              </div>
 
-          <div className="flex items-center border-l border-gray-300 pl-4 h-5 align-self: center">
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-brand-green"
-                  : "text-gray-700 hover:text-brand-green"
-              }
-            >
-              <FontAwesomeIcon icon={faUser} />
-              <span className="text-sm">Login</span>
-            </NavLink>
-          </div>
+              {isOpen && (
+                <div className="absolute right-0 border w-36 mt-2 border-gray-200 p-2 bg-gray-50 z-20 overflow-hidden">
+                  <ul className="flex flex-col gap-1">
+                    <li className="p-2 rounded-full hover:bg-gray-300">
+                    <NavLink to={"/personal-page"}>
+                      Personal
+                    </NavLink></li>
+
+                    <li className="p-2 rounded-full hover:bg-gray-300">
+                      <button
+                        onClick={handleClickLogout}
+                        className="cursor-pointer"
+                      >
+                        Log out{" "}
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center pl-4 h-5 align-self: center">
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-brand-green"
+                    : "text-gray-700 hover:text-brand-green"
+                }
+              >
+                <FontAwesomeIcon icon={faUser} />
+                <span className="text-sm">Login</span>
+              </NavLink>
+            </div>
+          )}
         </div>
       </nav>
     </>

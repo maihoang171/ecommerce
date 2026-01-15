@@ -7,6 +7,7 @@ import {
   type ILoginRequest,
   type IRegisterUserRequest,
   registerUser,
+  logout,
 } from "../services/user";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -22,7 +23,7 @@ export const useLogin = () => {
 
       await login(payload);
       const user = await getMe();
-      setUser(user.data);
+      setUser(user.data.data);
 
       navigate("/");
     } catch (error) {
@@ -53,7 +54,7 @@ export const useRegister = () => {
 
   const handleRegister = async (payload: IRegisterUserRequest) => {
     try {
-      setError("")
+      setError("");
       await registerUser(payload);
 
       setFormKey((prev) => prev + 1);
@@ -79,4 +80,24 @@ export const useRegister = () => {
     setFormKey,
     handleRegister,
   };
+};
+
+export const useLogout = () => {
+  const setUser = useUserStore(state => state.setUser)
+  const [error, setError] = useState("");
+  const handleLogout = async () => {
+    try {
+      setError("");
+      await logout();
+      setUser(null)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setError("An error occurred");
+      } else {
+        setError("An unexpected error occurred");
+      }
+    }
+  };
+
+  return { error, handleLogout };
 };
