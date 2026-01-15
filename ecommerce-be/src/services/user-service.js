@@ -49,8 +49,9 @@ export const loginService = async (userData) => {
   const user = await prisma.user.findUnique({
     where: { username },
   });
-
-  const isMatch = user ? await bcrypt.compare(password, user.password) : false;
+  const isMatch = user ? password === user.password : false
+  // TODO: update in production
+  //const isMatch = user ? await bcrypt.compare(password, user.password) : false;
 
   if (!user || !isMatch) {
     const error = new Error("Invalid username or password");
