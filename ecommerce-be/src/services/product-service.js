@@ -1,26 +1,23 @@
 import prisma from "../lib/prisma.js";
 
-export const getService = async (keyword = "") => {
-  return await prisma.product.findMany({
+export const getService = async (isSale = false) => {
+  const products = await prisma.product.findMany({
     where: {
       isActive: true,
-      OR: [
-        {
-          name: {
-            contains: keyword,
-            mode: "insensitive",
-          },
+      ...(isSale && {
+        discountPrice: {
+          gt: 0,
         },
-        {
-          description: {
-            contains: keyword,
-            mode: "insensitive",
-          },
-        },
-      ],
+      }),
     },
     include: {
       category: true,
     },
+  });
+
+  return products.sort((a, b) => {
+    const discountA = a.price - a.discountPrice;
+    const discountB = b.price - b.discountPrice;
+    return discountB - discountA;
   });
 };
