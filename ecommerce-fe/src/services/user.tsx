@@ -1,11 +1,11 @@
 import { axiosClient } from "./axios";
 import axios from "axios";
-import {registerUserDTO, loginDTO} from "../../../shared/user-dto.js"
+import { registerUserDTO, loginDTO } from "../../../shared/user-dto.js";
 import type z from "zod";
 
-export type IRegisterUserRequest = z.infer<typeof registerUserDTO>
+export type IRegisterUserRequest = z.infer<typeof registerUserDTO>;
 
-export type ILoginRequest = z.infer<typeof loginDTO>
+export type ILoginRequest = z.infer<typeof loginDTO>;
 
 export interface IUser {
   id: string;
@@ -16,6 +16,10 @@ export interface IUser {
   createdAt: Date;
 }
 
+export interface IUserResponse {
+  status: string;
+  data: IUser
+}
 export const registerUser = async (payload: IRegisterUserRequest) => {
   const res = await axiosClient.post("/auth/register", payload);
   return res;
@@ -27,7 +31,12 @@ export const login = async (payload: ILoginRequest) => {
 };
 
 export const getMe = async () => {
-  const res = await axiosClient.get<IUser>("/auth/me");
+  const res = await axiosClient.get<IUserResponse>("/auth/me");
+  return res;
+};
+
+export const logout = async () => {
+  const res = await axiosClient.post("/auth/logout");
   return res;
 };
 
