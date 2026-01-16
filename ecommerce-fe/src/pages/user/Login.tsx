@@ -20,10 +20,6 @@ function Login() {
 
   const onSubmit = async (data: ILoginRequest) => {
     await handleLogin(data);
-
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
   };
 
   return (
