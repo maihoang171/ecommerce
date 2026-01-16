@@ -2,7 +2,6 @@ import { getService } from "../../services/product-service.js";
 
 export const getController = async (req, res, next) => {
   const { isSale } = req.query;
-  console.log(req.query);
   try {
     const products = await getService({
       isSale: isSale === "true",
