@@ -4,6 +4,7 @@ import Login from "./pages/user/Login";
 import { Toaster } from "sonner";
 import Home from "./pages/Home";
 import MainLayout from "./components/MainLayout";
+import Products from "./pages/Products";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products/>}/>
           </Route>
 
           <Route path="/login" element={<Login />} />

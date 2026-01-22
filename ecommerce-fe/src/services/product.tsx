@@ -17,9 +17,9 @@ export interface IProductListResponse {
   status: string;
   data: IProduct[];
 }
-export const fetchProductList = async (isSale: boolean) => {
+export const fetchProductList = async (isSale: boolean, keyword: string) => {
   const res = await axiosClient.get<IProductListResponse>("/products", {
-    params: { isSale },
+    params: { isSale, keyword },
   });
   return res;
 };
