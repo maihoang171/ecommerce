@@ -9,20 +9,16 @@ import "swiper/css/pagination";
 
 import Banner from "../components/Banner";
 function Home() {
-  const { handleFetchSaleProductList, handleFetchProductList } =
+  const { handleFetchSaleProductList } =
     useFetchProductList();
   const saleProductList = useProductListStore((state) => state.saleProductList);
-  const productList = useProductListStore((state) => state.productList);
 
   useEffect(() => {
     if (saleProductList.length === 0) {
       handleFetchSaleProductList();
     }
 
-    if (productList.length === 0) {
-      handleFetchProductList("");
-    }
-  }, [saleProductList.length, productList.length, handleFetchSaleProductList, handleFetchProductList]);
+  }, [saleProductList.length, handleFetchSaleProductList]);
 
   return (
     <>

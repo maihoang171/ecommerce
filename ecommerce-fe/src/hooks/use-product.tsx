@@ -6,8 +6,10 @@ import { useProductListStore } from "../stores/useProductStore";
 export const useFetchProductList = () => {
   const [error, setError] = useState("");
   const setProductList = useProductListStore((state) => state.setProductList);
-  const setSaleProductList = useProductListStore((state) => state.setSaleProductList)
-  
+  const setSaleProductList = useProductListStore(
+    (state) => state.setSaleProductList,
+  );
+
   const handleFetchSaleProductList = async () => {
     try {
       setError("");
@@ -38,5 +40,5 @@ export const useFetchProductList = () => {
     }
   };
 
-  return { error,handleFetchSaleProductList, handleFetchProductList };
+  return { error, handleFetchSaleProductList, handleFetchProductList };
 };

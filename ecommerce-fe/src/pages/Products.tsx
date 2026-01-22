@@ -1,8 +1,21 @@
+import { useSearchParams } from "react-router-dom"
 import ProductCart from "../components/ProductCart"
 import { useProductListStore } from "../stores/useProductStore"
+import { useEffect } from "react"
+import { useFetchProductList } from "../hooks/use-product"
 
 function Products () {
     const productList = useProductListStore(state => state.productList)
+    const [searchParams] = useSearchParams();
+
+    const keyword = searchParams.get("keyword") || ""
+
+    const { handleFetchProductList } = useFetchProductList()
+
+    useEffect(()=>{
+            handleFetchProductList(keyword)
+    },[keyword, handleFetchProductList])
+
     return (
         <>
          <section className="flex flex-row">
