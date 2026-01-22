@@ -37,7 +37,9 @@ function Navbar() {
   return (
     <>
       <nav className="flex flex-row w-full justify-between items-center">
-        <a href="/"><img src={logo} /></a>
+        <NavLink to="/">
+          <img src={logo} />
+        </NavLink>
 
         <ul className="hidden md:flex gap-8 font-bold items-center">
           <li>
@@ -107,14 +109,8 @@ function Navbar() {
         {/* //TODO: update link */}
         <div className="flex flex-row gap-5 items-center justify-center">
           <NavLink
-            to=""
-            className={({ isActive }) =>
-              `relative inline-block transition-transform hover:scale-110 ${
-                isActive
-                  ? "text-brand-green"
-                  : "text-gray-700 hover:text-brand-green"
-              }`
-            }
+            to="/shopping-cart"
+            className="relative inline-block transition-transform hover:scale-110 text-gray-700 hover:text-brand-green"
           >
             <FontAwesomeIcon icon={faBagShopping} className="text-2xl" />
             <span className="absolute -top-2 -right-2 bg-brand-green text-xs text-white font-bold rounded-full w-5 h-5 flex justify-center items-center border-2 border-white">
