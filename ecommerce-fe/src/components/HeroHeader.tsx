@@ -20,7 +20,7 @@ function HeroHeader() {
   const handleSearch = async () => {
     const trimmedKeyword = keyword.trim();
     await handleFetchProductList(trimmedKeyword);
-    navigate(trimmedKeyword ? `/products?keyword=${encodeURIComponent(trimmedKeyword)}` : "/products");
+    navigate(`/products?keyword=${encodeURIComponent(trimmedKeyword)}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -31,7 +31,7 @@ function HeroHeader() {
     if (categoryList.length === 0) {
       handleFetchCategoryList();
     }
-  }, []);
+  }, [categoryList.length, handleFetchCategoryList]);
 
   return (
     <>

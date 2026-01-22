@@ -22,7 +22,7 @@ function Home() {
     if (productList.length === 0) {
       handleFetchProductList("");
     }
-  }, []);
+  }, [saleProductList.length, productList.length, handleFetchSaleProductList, handleFetchProductList]);
 
   return (
     <>
