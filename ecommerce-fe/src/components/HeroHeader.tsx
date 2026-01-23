@@ -31,7 +31,7 @@ function HeroHeader() {
     if (categoryList.length === 0) {
       handleFetchCategoryList();
     }
-  }, [categoryList.length, handleFetchCategoryList]);
+  }, []);
 
   return (
     <>
