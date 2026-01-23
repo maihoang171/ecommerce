@@ -14,7 +14,7 @@ export const useFetchProductList = () => {
     try {
       setError("");
 
-      const res = await fetchProductList(true, "");
+      const res = await fetchProductList(true, "", undefined);
       setSaleProductList(res.data.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -25,11 +25,11 @@ export const useFetchProductList = () => {
     }
   };
 
-  const handleFetchProductList = async (keyword: string) => {
+  const handleFetchProductList = async (keyword: string, categoryId: number) => {
     try {
       setError("");
 
-      const res = await fetchProductList(false, keyword);
+      const res = await fetchProductList(false, keyword, categoryId);
       setProductList(res.data.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {

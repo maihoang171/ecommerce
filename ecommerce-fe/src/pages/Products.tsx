@@ -9,12 +9,12 @@ function Products() {
   const [searchParams] = useSearchParams();
 
   const keyword = searchParams.get("keyword") || "";
-
+  const categoryId = Number(searchParams.get("categoryId")) || 0;
   const { handleFetchProductList } = useFetchProductList();
 
   useEffect(() => {
-    handleFetchProductList(keyword);
-  }, [keyword]);
+    handleFetchProductList(keyword, categoryId);
+  }, [keyword, categoryId]);
 
   return (
     <>

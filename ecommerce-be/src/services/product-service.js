@@ -1,9 +1,14 @@
 import prisma from "../lib/prisma.js";
 
-export const getService = async ({isSale = false, keyword= ""}) => {
+export const getService = async ({
+  isSale = false,
+  keyword = "",
+  categoryId = "",
+}) => {
   const products = await prisma.product.findMany({
     where: {
       isActive: true,
+
       ...(keyword
         ? {
             OR: [
@@ -15,14 +20,19 @@ export const getService = async ({isSale = false, keyword= ""}) => {
               },
             ],
           }
-        : isSale
+        : {}),
+
+      ...(isSale
         ? {
             discountPrice: {
               gt: 0,
             },
           }
         : {}),
+
+      ...(categoryId ? { categoryId: categoryId } : {}),
     },
+    
     include: {
       category: true,
     },
