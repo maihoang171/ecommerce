@@ -14,6 +14,7 @@ function ProductCart({ product, onAddToCart }: ProductCartProps) {
   const categoryName = categoryList.find(
     (c) => product.categoryId === c.id
   )?.name;
+  
   const isSale =
     product.discountPrice > 0 &&
     Number(product.discountPrice) < Number(product.price);
