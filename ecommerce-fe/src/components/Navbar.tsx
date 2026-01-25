@@ -10,7 +10,6 @@ import { useState, useRef, useEffect } from "react";
 function Navbar() {
   const user = useUserStore((state) => state.user);
   const setUser = useUserStore((state) => state.setUser);
-  console.log(user);
   const navigate = useNavigate();
   const { handleLogout } = useLogout();
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +37,9 @@ function Navbar() {
   return (
     <>
       <nav className="flex flex-row w-full justify-between items-center">
-        <img src={logo} />
+        <NavLink to="/">
+          <img src={logo} />
+        </NavLink>
 
         <ul className="hidden md:flex gap-8 font-bold items-center">
           <li>
@@ -106,16 +107,10 @@ function Navbar() {
         </ul>
 
         {/* //TODO: update link */}
-        <div className="flex flex-row gap-5 items-center">
+        <div className="flex flex-row gap-5 items-center justify-center">
           <NavLink
-            to=""
-            className={({ isActive }) =>
-              `relative inline-block transition-transform hover:scale-110 ${
-                isActive
-                  ? "text-brand-green"
-                  : "text-gray-700 hover:text-brand-green"
-              }`
-            }
+            to="/shopping-cart"
+            className="relative inline-block transition-transform hover:scale-110 text-gray-700 hover:text-brand-green"
           >
             <FontAwesomeIcon icon={faBagShopping} className="text-2xl" />
             <span className="absolute -top-2 -right-2 bg-brand-green text-xs text-white font-bold rounded-full w-5 h-5 flex justify-center items-center border-2 border-white">
@@ -162,7 +157,7 @@ function Navbar() {
               )}
             </div>
           ) : (
-            <div className="flex items-center pl-4 h-5 align-self: center">
+            <div className="flex items-center h-5">
               <NavLink
                 to="/login"
                 className={({ isActive }) =>

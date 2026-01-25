@@ -1,12 +1,14 @@
 import { getService } from "../../services/product-service.js";
 
 export const getController = async (req, res, next) => {
-  const { isSale, keyword } = req.query;
+  const { isSale, keyword, categoryId } = req.query;
 
   try {
+    const parsedCategoryId = categoryId ? Number(categoryId) : undefined;
     const products = await getService({
       isSale: isSale === "true",
-      keyword: keyword?.trim()
+      keyword: keyword?.trim(),
+      categoryId: isNaN(parsedCategoryId) ? undefined : parsedCategoryId,
     });
 
     res.status(200).json({

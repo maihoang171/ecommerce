@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFetchCategoryList } from "../hooks/use-category";
 import { useCategoryStore } from "../stores/useCategoryStore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,11 +7,30 @@ import {
   faChevronDown,
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useFetchProductList } from "../hooks/use-product";
 
 function HeroHeader() {
+
+  const [keyword, setKeyword] = useState("");  
   const { handleFetchCategoryList } = useFetchCategoryList();
   const categoryList = useCategoryStore((state) => state.categoryList);
+  const { handleFetchProductList } = useFetchProductList();
+  const navigate = useNavigate()
+
+  const handleSearch = async () => {
+    const trimmedKeyword = keyword.trim();
+    await handleFetchProductList(trimmedKeyword, 0);
+    navigate(`/products?keyword=${encodeURIComponent(trimmedKeyword)}`);
+  };
+
+  const handleFetchProductListByCategoryId = async (categoryId: number) => {
+    handleFetchProductList("", categoryId); 
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") handleSearch();
+  };
 
   useEffect(() => {
     if (categoryList.length === 0) {
@@ -43,7 +62,7 @@ function HeroHeader() {
           >
             <ul className="overflow-hidden">
               {categoryList.map((c) => (
-                <NavLink key={c.id} to={`/categories/${c.id}`}>
+                <NavLink key={c.id} to={`/products?categoryId=${c.id}`} onClick={() => handleFetchProductListByCategoryId(c.id)}>
                   <li
                     key={c.id}
                     className="px-6 py-2 hover:text-brand-green hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-none"
@@ -61,8 +80,14 @@ function HeroHeader() {
             <input
               placeholder="What do you need?"
               className="border h-full border-gray-200 min-w-xs p-4 focus:outline-none focus:outline-2 focus:outline-brand-green focus:outline-offset-0"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
-            <button className="bg-brand-green text-white h-full px-6 uppercase hover:cursor-pointer">
+            <button
+              onClick={handleSearch}
+              className="bg-brand-green text-white h-full px-6 uppercase hover:cursor-pointer"
+            >
               Search
             </button>
           </label>

@@ -51,7 +51,6 @@ export const loginService = async (userData) => {
   });
 
   let isMatch = false;
-  console.log(process.env.NODE_ENV)
   if (process.env.NODE_ENV === "production") {
     isMatch = user ? await bcrypt.compare(password, user.password) : false;
   } else {

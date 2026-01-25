@@ -12,14 +12,15 @@ interface ProductCartProps {
 function ProductCart({ product, onAddToCart }: ProductCartProps) {
   const categoryList = useCategoryStore((state) => state.categoryList);
   const categoryName = categoryList.find(
-    (c) => product.categoryId === c.id
+    (c) => product.categoryId === c.id,
   )?.name;
+
   const isSale =
     product.discountPrice > 0 &&
     Number(product.discountPrice) < Number(product.price);
   const discountPercent = isSale
     ? Math.round(
-        ((product.price - product.discountPrice) / product.price) * 100
+        ((product.price - product.discountPrice) / product.price) * 100,
       )
     : 0;
 

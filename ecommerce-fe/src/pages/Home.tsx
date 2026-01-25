@@ -9,12 +9,12 @@ import "swiper/css/pagination";
 
 import Banner from "../components/Banner";
 function Home() {
-  const { handleFetchProductList } = useFetchProductList({ isSale: true });
-  const productList = useProductListStore((state) => state.productList);
+  const { handleFetchSaleProductList } = useFetchProductList();
+  const saleProductList = useProductListStore((state) => state.saleProductList);
 
   useEffect(() => {
-    if (productList.length === 0) {
-      handleFetchProductList();
+    if (saleProductList.length === 0) {
+      handleFetchSaleProductList();
     }
   }, []);
 
@@ -42,7 +42,7 @@ function Home() {
             autoplay={{ delay: 3000 }}
             pagination={{ clickable: true }}
           >
-            {productList.map((p) => (
+            {saleProductList.map((p) => (
               <SwiperSlide key={p.id} className="pb-10">
                 <ProductCart product={p} />
               </SwiperSlide>
